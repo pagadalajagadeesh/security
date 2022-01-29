@@ -10,15 +10,17 @@ import javax.persistence.Id;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-public class Role implements Serializable, GrantedAuthority {
+public class Role extends BaseEntity implements Serializable, GrantedAuthority {
 
 	private static final long serialVersionUID = 4941054493687607812L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+
 	private String role;
 	private String description;
-	
+	boolean enabled = true;
+	boolean permissionToCreate = true;
+	boolean permissionToUpdate = false;
+	boolean permissionToDelete = false;
+
 	public Role(String role, String description) {
 		super();
 		this.role = role;
@@ -57,5 +59,36 @@ public class Role implements Serializable, GrantedAuthority {
 		this.description = description;
 	}
 
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public boolean isPermissionToCreate() {
+		return permissionToCreate;
+	}
+
+	public void setPermissionToCreate(boolean permissionToCreate) {
+		this.permissionToCreate = permissionToCreate;
+	}
+
+	public boolean isPermissionToUpdate() {
+		return permissionToUpdate;
+	}
+
+	public void setPermissionToUpdate(boolean permissionToUpdate) {
+		this.permissionToUpdate = permissionToUpdate;
+	}
+
+	public boolean isPermissionToDelete() {
+		return permissionToDelete;
+	}
+
+	public void setPermissionToDelete(boolean permissionToDelete) {
+		this.permissionToDelete = permissionToDelete;
+	}
 
 }

@@ -2,6 +2,7 @@ package com.jagdi.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Collection;
 import java.util.Set;
 
@@ -16,23 +17,20 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class User implements Serializable, UserDetails {
+public class User extends BaseEntity implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = -2591306035371162680L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
 	private String username;
 	private String password;
+	private String mobileNumber;
+	private String email;
 	@OneToMany(targetEntity = Role.class, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<Role> role;
-	private boolean enabled = false;
-	private boolean accountNonExpired = false;
-	private boolean credentialsNonExpired = false;
-	private boolean accountNonLocked = false;
-	private Date createdOn = new Date();
-	private Date updatedOn = new Date();
+	boolean enabled = true;
+	boolean accountNonExpired = false;
+	boolean credentialsNonExpired = false;
+	boolean accountNonLocked = false;
 
 	public User() {
 		super();
@@ -76,7 +74,7 @@ public class User implements Serializable, UserDetails {
 
 	@Override
 	public String getPassword() {
-		return password;
+		return null;
 	}
 
 	@Override
@@ -134,6 +132,43 @@ public class User implements Serializable, UserDetails {
 
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+
+	public String getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(email, mobileNumber, password, role, username);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return Objects.equals(email, other.email) && Objects.equals(mobileNumber, other.mobileNumber)
+				&& Objects.equals(password, other.password) && Objects.equals(role, other.role)
+				&& Objects.equals(username, other.username);
 	}
 
 }

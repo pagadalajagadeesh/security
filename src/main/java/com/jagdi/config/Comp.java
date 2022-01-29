@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.jagdi.entities.Role;
 import com.jagdi.entities.User;
+import com.jagdi.handlers.PasswordHandler;
 import com.jagdi.repositories.RoleRepository;
 import com.jagdi.repositories.UserRepository;
 
@@ -21,16 +22,17 @@ public class Comp {
 
 	@Autowired
 	RoleRepository roleRepository;
+	
+	@Autowired 
+	PasswordHandler passwordHandler;
 
-	@PostConstruct
-	private void exec() {
-		roleRepository.deleteAll();
-		roleRepository.save(new Role("ADMIN", "admin user"));
-		roleRepository.save(new Role("USER", "normal user"));
-		userRepository.deleteAll();
-		Set set = new HashSet();
-		roleRepository.findAll().forEach(a -> set.add(a));
-		userRepository.save(new User("jagdi", "jagdi", set));
-	}
+	/*
+	 * @PostConstruct private void exec() { roleRepository.deleteAll();
+	 * roleRepository.save(new Role("ADMIN", "admin user")); roleRepository.save(new
+	 * Role("USER", "normal user")); userRepository.deleteAll(); Set set = new
+	 * HashSet(); roleRepository.findAll().forEach(a -> set.add(a));
+	 * userRepository.save(new User("jagdi",passwordHandler.encode("jagdi") , set));
+	 * }
+	 */
 
 }
