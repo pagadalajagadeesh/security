@@ -22,17 +22,19 @@ public class Comp {
 
 	@Autowired
 	RoleRepository roleRepository;
-	
-	@Autowired 
+
+	@Autowired
 	PasswordHandler passwordHandler;
 
-	/*
-	 * @PostConstruct private void exec() { roleRepository.deleteAll();
-	 * roleRepository.save(new Role("ADMIN", "admin user")); roleRepository.save(new
-	 * Role("USER", "normal user")); userRepository.deleteAll(); Set set = new
-	 * HashSet(); roleRepository.findAll().forEach(a -> set.add(a));
-	 * userRepository.save(new User("jagdi",passwordHandler.encode("jagdi") , set));
-	 * }
-	 */
+	@PostConstruct
+	private void exec() {
+		roleRepository.deleteAll();
+		roleRepository.save(new Role("ADMIN", "admin user"));
+		roleRepository.save(new Role("USER", "normal user"));
+		userRepository.deleteAll();
+		Set set = new HashSet();
+		roleRepository.findAll().forEach(a -> set.add(a));
+		userRepository.save(new User("jagdi", passwordHandler.encode("jagdi"), set));
+	}
 
 }

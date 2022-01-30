@@ -1,25 +1,21 @@
 package com.jagdi.entities;
 
 import java.io.Serializable;
-
+import java.util.Set;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import org.springframework.security.core.GrantedAuthority;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Role extends BaseEntity implements Serializable, GrantedAuthority {
+public class Role extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 4941054493687607812L;
 
 	private String role;
 	private String description;
 	boolean enabled = true;
-	boolean permissionToCreate = true;
-	boolean permissionToUpdate = false;
-	boolean permissionToDelete = false;
+	@OneToMany(targetEntity = Authority.class, fetch = FetchType.LAZY, orphanRemoval = true)
+	private Set<Authority> authority;
 
 	public Role(String role, String description) {
 		super();
@@ -46,11 +42,6 @@ public class Role extends BaseEntity implements Serializable, GrantedAuthority {
 		this.role = role;
 	}
 
-	@Override
-	public String getAuthority() {
-		return getRole();
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -67,28 +58,20 @@ public class Role extends BaseEntity implements Serializable, GrantedAuthority {
 		this.enabled = enabled;
 	}
 
-	public boolean isPermissionToCreate() {
-		return permissionToCreate;
+	public Set<Authority> getAuthority() {
+		return authority;
 	}
 
-	public void setPermissionToCreate(boolean permissionToCreate) {
-		this.permissionToCreate = permissionToCreate;
+	public void setAuthority(Set<Authority> authority) {
+		this.authority = authority;
 	}
 
-	public boolean isPermissionToUpdate() {
-		return permissionToUpdate;
+	@Override
+	public String toString() {
+		return "Role [role=" + role + ", description=" + description + ", enabled=" + enabled + ", authority="
+				+ authority + "]";
 	}
-
-	public void setPermissionToUpdate(boolean permissionToUpdate) {
-		this.permissionToUpdate = permissionToUpdate;
-	}
-
-	public boolean isPermissionToDelete() {
-		return permissionToDelete;
-	}
-
-	public void setPermissionToDelete(boolean permissionToDelete) {
-		this.permissionToDelete = permissionToDelete;
-	}
+	
+	
 
 }

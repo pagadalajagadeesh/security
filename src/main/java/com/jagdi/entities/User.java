@@ -1,17 +1,13 @@
 package com.jagdi.entities;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Objects;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +19,8 @@ public class User extends BaseEntity implements Serializable, UserDetails {
 
 	private String username;
 	private String password;
+	private String firstname;
+	private String lastname;
 	private String mobileNumber;
 	private String email;
 	@OneToMany(targetEntity = Role.class, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -67,9 +65,15 @@ public class User extends BaseEntity implements Serializable, UserDetails {
 		this.role = role;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return role;
+
+		Set set = new HashSet();
+		role.forEach(r -> {
+			r.getAuthority().stream().filter(f -> f != null).forEach(a -> set.add(a.getType()));
+		});
+		return set;
 	}
 
 	@Override
@@ -149,26 +153,21 @@ public class User extends BaseEntity implements Serializable, UserDetails {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(email, mobileNumber, password, role, username);
+	public String getFirstname() {
+		return firstname;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		return Objects.equals(email, other.email) && Objects.equals(mobileNumber, other.mobileNumber)
-				&& Objects.equals(password, other.password) && Objects.equals(role, other.role)
-				&& Objects.equals(username, other.username);
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 }

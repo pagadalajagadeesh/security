@@ -20,10 +20,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authProvider());
@@ -39,11 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable()
-		.httpBasic().and()
-		.authorizeRequests().antMatchers("/rest").permitAll();
+
+		http.csrf().disable().authorizeRequests()
+//              .antMatchers("/employee/me").authenticated()
+				.antMatchers("/**").permitAll();
+
 	}
-	
-	
 
 }

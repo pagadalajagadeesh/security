@@ -1,6 +1,8 @@
 package com.jagdi.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,6 +26,14 @@ public class UserService implements UserDetailsService {
 			throw new UsernameNotFoundException("User not found");
 		}
 		return user;
+	}
+	
+	
+	public User getLoggedInUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = (String) authentication.getPrincipal();
+		System.out.println(username);
+		return (User) loadUserByUsername(username);
 	}
 
 }

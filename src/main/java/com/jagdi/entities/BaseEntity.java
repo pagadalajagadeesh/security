@@ -3,9 +3,13 @@ package com.jagdi.entities;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
@@ -18,7 +22,12 @@ public class BaseEntity implements Serializable {
 
 	Date createdOn = new Date();
 	Date updatedOn = new Date();
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="createdBy")
 	User createdBy;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="updatedBy")
 	User updatedBy;
 
 	public long getId() {
