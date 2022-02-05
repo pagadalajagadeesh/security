@@ -22,12 +22,12 @@ public class BaseEntity implements Serializable {
 
 	Date createdOn = new Date();
 	Date updatedOn = new Date();
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="createdBy")
+	@JoinColumn(name = "createdBy")
 	User createdBy;
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="updatedBy")
+	@JoinColumn(name = "updatedBy")
 	User updatedBy;
 
 	public long getId() {
@@ -68,6 +68,11 @@ public class BaseEntity implements Serializable {
 
 	public void setUpdatedBy(User updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+
+	public void updateRecord(User user) {
+		this.updatedOn = new Date();
+		this.updatedBy = user;
 	}
 
 }

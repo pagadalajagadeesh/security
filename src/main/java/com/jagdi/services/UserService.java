@@ -36,4 +36,9 @@ public class UserService implements UserDetailsService {
 		return (User) loadUserByUsername(username);
 	}
 
+
+	public User findById(long contactPersonId) {
+		return userRepository.findById(contactPersonId).get();
+	}
+
 }

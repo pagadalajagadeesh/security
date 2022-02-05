@@ -2,10 +2,10 @@ package com.jagdi.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.jagdi.entities.ExceptionLog;
+import com.jagdi.entities.Organization;
 
 
 @Repository
-public interface ExceptionLogRepository extends JpaRepository<ExceptionLog, Long>{
+public interface OrganizationRepository extends JpaRepository<Organization, Long>{
 
 }
