@@ -1,31 +1,26 @@
 package com.jagdi.entities;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class OrganizationFiles extends BaseFileEntity {
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "organization")
-	private Organization organization;
+	private static final long serialVersionUID = 6825773312318459320L;
+	private long organizationId;
 
-	public Organization getOrganization() {
-		return organization;
+	public long getOrganizationId() {
+		return organizationId;
 	}
 
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
+	public void setOrganizationId(long organizationId) {
+		this.organizationId = organizationId;
 	}
 
 	@Override
 	public String toString() {
-		return "OrganizationFiles [organization=" + organization + ", fileName=" + fileName + ", filePath=" + filePath
-				+ ", id=" + id + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", createdBy=" + createdBy
-				+ ", updatedBy=" + updatedBy + "]";
+		return "OrganizationFiles [organizationId=" + organizationId + ", fileName=" + fileName + ", filePath="
+				+ filePath + ", id=" + id + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", createdBy="
+				+ createdBy + ", updatedBy=" + updatedBy + "]";
 	}
-	
-	
+
 }

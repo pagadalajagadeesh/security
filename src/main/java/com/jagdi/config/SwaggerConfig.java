@@ -4,8 +4,14 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+
+import java.util.Map;
+import java.util.TreeMap;
+
+import org.springdoc.core.customizers.OpenApiCustomiser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -49,4 +55,12 @@ public class SwaggerConfig {
 	private SecurityScheme createSecurityScheme() {
 		return new SecurityScheme().name(SCHEME_NAME).type(SecurityScheme.Type.HTTP).scheme(SCHEME);
 	}
+	
+//	@Bean
+//	public OpenApiCustomiser sortSchemasAlphabetically() {
+//	    return openApi -> {
+//	        Map<String, Schema> schemas = openApi.getComponents().getSchemas();
+//	        openApi.getComponents().setSchemas(new TreeMap<>(schemas));
+//	    };
+//	}
 }

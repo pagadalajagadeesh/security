@@ -6,9 +6,15 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,16 +25,15 @@ public class User extends BaseEntity implements Serializable, UserDetails {
 
 	private String username;
 	private String password;
-	private String firstname;
-	private String lastname;
-	private String mobileNumber;
-	private String email;
 	@OneToMany(targetEntity = Role.class, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<Role> role;
 	boolean enabled = true;
 	boolean accountNonExpired = false;
 	boolean credentialsNonExpired = false;
 	boolean accountNonLocked = false;
+	@OneToOne(cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private Employee employee;
 
 	public User() {
 		super();
@@ -138,36 +143,12 @@ public class User extends BaseEntity implements Serializable, UserDetails {
 		this.updatedOn = updatedOn;
 	}
 
-	public String getMobileNumber() {
-		return mobileNumber;
+	public Employee getEmployee() {
+		return employee;
 	}
 
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
 }

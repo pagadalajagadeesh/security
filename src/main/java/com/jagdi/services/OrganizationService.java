@@ -2,12 +2,14 @@ package com.jagdi.services;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jagdi.entities.Authority;
 import com.jagdi.entities.Organization;
+import com.jagdi.entities.OrganizationFiles;
 import com.jagdi.entities.User;
 import com.jagdi.repositories.OrganizationFilesRepository;
 import com.jagdi.repositories.OrganizationRepository;
@@ -99,7 +101,8 @@ public class OrganizationService {
 	public Organization getOrganization(Long id, Principal principal) {
 		Organization organization = organizationRepository.findById(id).get();
 		if (organization != null) {
-			organization.setOrganizationFiles(organizationFilesRepository.findAllByOrganizationId(organization.getId()));
+			List<OrganizationFiles> files =	organizationFilesRepository.findByOrganizationId(organization.getId());
+			organization.setOrganizationFiles(files);
 		}
 		return organization;
 	}

@@ -13,36 +13,37 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jagdi.entities.Company;
+import com.jagdi.entities.CompanyFiles;
 import com.jagdi.entities.Organization;
 import com.jagdi.entities.OrganizationFiles;
 import com.jagdi.entities.User;
-import com.jagdi.repositories.OrganizationFilesRepository;
-import com.jagdi.repositories.OrganizationRepository;
+import com.jagdi.repositories.CompanyFilesRepository;
+import com.jagdi.repositories.CompanyRepository;
 
 @Service
-public class OrganizationFilesService {
+public class CompanyFilesService {
 
 	@Autowired
-	OrganizationFilesRepository organizationFilesRepository;
+	CompanyFilesRepository companyFilesRepository;
 
 	@Autowired
 	UserService userService;
 
 	@Autowired
-	OrganizationRepository organizationRepository;
+	CompanyRepository companyRepository;
 
 	@Value("${filesfolderPath}")
 	private String filesfolderPath;
 
-	public List<OrganizationFiles> uploadFiles(Long orgId, MultipartFile[] files, Principal principal)
-			throws Exception {
-		List<OrganizationFiles> organizationFiles = new ArrayList();
+	public List<CompanyFiles> uploadFiles(Long companyId, MultipartFile[] files, Principal principal) throws Exception {
+
+		List<CompanyFiles> organizationFiles = new ArrayList();
 		filesfolderPath = System.getProperty(filesfolderPath);
-		String orgFilePath = filesfolderPath + File.separator + orgId;
+		String orgFilePath = filesfolderPath + File.separator + companyId;
 		Path uploadPath = Paths.get(orgFilePath);
 		if (!Files.exists(uploadPath)) {
 			Files.createDirectories(uploadPath);
@@ -53,23 +54,24 @@ public class OrganizationFilesService {
 			Path filePath = uploadPath.resolve(file.getOriginalFilename());
 			try {
 				Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-				OrganizationFiles of = new OrganizationFiles();
+				CompanyFiles cf = new CompanyFiles();
 				String fileUploadPath = uploadPath + File.separator + file.getOriginalFilename();
-				of.setFileName(file.getOriginalFilename());
-				of.setFilePath(fileUploadPath);
+				cf.setFileName(file.getOriginalFilename());
+				cf.setFilePath(fileUploadPath);
 				User user = (User) userService.loadUserByUsername(principal.getName());
-				of.setCreatedBy(user);
-				of.setUpdatedBy(user);
-				Organization organization = organizationRepository.findById(orgId).get();
-				of.setOrganizationId(organization.getId());
-				organizationFilesRepository.save(of);
-				organizationFiles.add(of);
+				cf.setCreatedBy(user);
+				cf.setUpdatedBy(user);
+				Company company = companyRepository.findById(companyId).get();
+				cf.setCompanyId(company.getId());
+				companyFilesRepository.save(cf);
+				organizationFiles.add(cf);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
 
 		return organizationFiles;
+
 	}
 
 }

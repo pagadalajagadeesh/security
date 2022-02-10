@@ -10,16 +10,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
-public class Organization extends BaseEntity implements Serializable{
+public class Company extends BaseEntity implements Serializable {
 
-	private static final long serialVersionUID = -3248892695615965937L;
+	private static final long serialVersionUID = -7764081251888891852L;
 
 	private String name;
 	@Column(unique = true)
 	private String code;
+	private String organizationCode;
 	private String address;
 	private String location;
 	private String email;
@@ -32,7 +31,7 @@ public class Organization extends BaseEntity implements Serializable{
 	private long contactPersonId;
 	boolean active = false;
 	@Transient
-	List<OrganizationFiles> organizationFiles;
+	List<CompanyFiles> companyFiles;
 
 	public String getName() {
 		return name;
@@ -48,6 +47,14 @@ public class Organization extends BaseEntity implements Serializable{
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getOrganizationCode() {
+		return organizationCode;
+	}
+
+	public void setOrganizationCode(String organizationCode) {
+		this.organizationCode = organizationCode;
 	}
 
 	public String getAddress() {
@@ -113,22 +120,23 @@ public class Organization extends BaseEntity implements Serializable{
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
-	public List<OrganizationFiles> getOrganizationFiles() {
-		return organizationFiles;
+
+	public List<CompanyFiles> getCompanyFiles() {
+		return companyFiles;
 	}
 
-	public void setOrganizationFiles(List<OrganizationFiles> organizationFiles) {
-		this.organizationFiles = organizationFiles;
+	public void setCompanyFiles(List<CompanyFiles> companyFiles) {
+		this.companyFiles = companyFiles;
 	}
 
 	@Override
 	public String toString() {
-		return "Organization [name=" + name + ", code=" + code + ", address=" + address + ", location=" + location
-				+ ", email=" + email + ", contactNumber=" + contactNumber + ", contactPerson=" + contactPerson
-				+ ", establishedYear=" + establishedYear + ", contactPersonId=" + contactPersonId + ", active=" + active
-				+ ", id=" + id + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", createdBy=" + createdBy
-				+ ", updatedBy=" + updatedBy + "]";
+		return "Company [name=" + name + ", code=" + code + ", organizationCode=" + organizationCode + ", address="
+				+ address + ", location=" + location + ", email=" + email + ", contactNumber=" + contactNumber
+				+ ", contactPerson=" + contactPerson + ", establishedYear=" + establishedYear + ", contactPersonId="
+				+ contactPersonId + ", active=" + active + ", companyFiles=" + companyFiles + ", id=" + id
+				+ ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", createdBy=" + createdBy + ", updatedBy="
+				+ updatedBy + "]";
 	}
 
 }

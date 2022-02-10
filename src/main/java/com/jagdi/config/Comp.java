@@ -26,7 +26,7 @@ public class Comp {
 	@Autowired
 	PasswordHandler passwordHandler;
 
-	@PostConstruct
+//	@PostConstruct
 	private void exec() {
 		roleRepository.deleteAll();
 		roleRepository.save(new Role("ADMIN", "admin user"));
